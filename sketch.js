@@ -16,19 +16,20 @@ function Params() {
     this.drawParameters = false;
 }
 
-gui.add(params, "speed", 0.0, 5.0, 2.0);
-gui.add(params, "tailSize", 0.0, 15.0, 5.0);
-gui.add(params, "separationRadius", 0, 1000, 100);
-gui.add(params, "separationStrength", 0.0, 5.0, 1.5);
-gui.add(params, "alignmentRadius", 0, 1000, 200);
-gui.add(params, "alignmentStrength", 0.0, 5.0, 1);
-gui.add(params, "wallsRadius", 0, 1000, 200);
-gui.add(params, "wallsStrength", 0.0, 750, 150);
-gui.add(params, "turnFactor", 0.0, 5.0, 1.0);
-gui.add(params, "useMouseFish");
-gui.add(params, "mouseFishSeparationStrength", 0.0, 5.0, 2.0)
-gui.add(params, "drawParameters");
-
+const fishFolder = gui.addFolder("𝐀𝐂𝐓 𝐎𝐍 𝐓𝐇𝐄 𝐅𝐈𝐒𝐇𝐇𝐄𝐑𝐃 !");
+fishFolder.add(params, "speed", 0.0, 5.0, 2.0).name("Speed");
+fishFolder.add(params, "tailSize", 0.0, 15.0, 5.0).name("Tail size");
+fishFolder.add(params, "separationRadius", 0, 1000, 100).name("Separation radius");
+fishFolder.add(params, "separationStrength", 0.0, 5.0, 1.5).name("Separation strength");
+fishFolder.add(params, "alignmentRadius", 0, 1000, 200).name("Alignment radius");
+fishFolder.add(params, "alignmentStrength", 0.0, 5.0, 1).name("Alignment strength");
+fishFolder.add(params, "wallsRadius", 0, 1000, 200).name("Walls radius");
+fishFolder.add(params, "wallsStrength", 0.0, 750, 150).name("Walls strength");
+fishFolder.add(params, "turnFactor", 0.0, 5.0, 1.0).name("Turn factor");
+fishFolder.add(params, "drawParameters").name("Draw parameters");
+const mouseFishFolder = gui.addFolder("𝐀𝐂𝐓 𝐎𝐍 𝐘𝐎𝐔𝐑 𝐅𝐈𝐒𝐇 !");
+mouseFishFolder.add(params, "useMouseFish").name("Activate the mouse fish");
+mouseFishFolder.add(params, "mouseFishSeparationStrength", 0.0, 5.0, 2.0).name("Mouse fish separation strength");
 
 // - - - - - - - VARIABLES - - - - - - -
 
@@ -36,14 +37,16 @@ const WINDOW = {"width" : $("body").prop("clientWidth"), "height" : $(window).he
 const SCREEN_COLOR = {"r": Math.random()*255,"g": Math.random()*255,"b": Math.random()*255}
 let SPEED = params.speed;
 let TAIL_SIZE = params.tailSize
-let SEPARATION_RADIUS = 100;
-let SEPARATION_STRENGTH = 1.5;
-let MOUSE_FISH_SEPARATION_STRENGTH = 2;
-let ALIGNMENT_RADIUS = 200;
-let ALIGNMENT_STRENGTH = 1;
-let WALLS_RADIUS = 200;
-let WALLS_STRENGTH = 150;
-let TURN_FACTOR = 1;
+let SEPARATION_RADIUS = params.separationRadius;
+let SEPARATION_STRENGTH = params.separationStrength;
+let MOUSE_FISH_SEPARATION_STRENGTH = params.mouseFishSeparationStrength;
+let ALIGNMENT_RADIUS = params.alignmentRadius;
+let ALIGNMENT_STRENGTH = params.alignmentStrength;
+let WALLS_RADIUS = params.wallsRadius;
+let WALLS_STRENGTH = params.wallsStrength;
+let TURN_FACTOR = params.turnFactor;
+let MOUSE_FISH = params.useMouseFish;
+let DRAW_PARAMS = params.drawParameters;
 
 const urlParams = new URLSearchParams(window.location.search);
 let NBFISH = urlParams.get("nbfish");
