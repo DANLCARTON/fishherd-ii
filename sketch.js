@@ -2,7 +2,6 @@
 
 const WINDOW = {"width" : $("body").prop("clientWidth"), "height" : $(window).height()}
 const SCREEN_COLOR = {"r": Math.random()*255,"g": Math.random()*255,"b": Math.random()*255}
-const NBFISH = 20;
 let SPEED = 2;
 let TAIL_SIZE = 5;
 let SEPARATION_RADIUS = 100;
@@ -10,7 +9,13 @@ let SEPARATION_STRENGTH = 1.5;
 let MOUSE_FISH_SEPARATION_STRENGTH = 2;
 let ALIGNMENT_RADIUS = 200;
 let ALIGNMENT_STRENGTH = 1;
+let WALLS_RADIUS = 200;
+let WALLS_STRENGTH = 150;
 let TURN_FACTOR = 1;
+
+const urlParams = new URLSearchParams(window.location.search);
+let NBFISH = urlParams.get("nbfish");
+if (NBFISH == null) NBFISH = 150;
 
 class Fish {
     constructor(x, y, angle, speed, id) {
@@ -34,6 +39,7 @@ class Fish {
     }
     turn(dir) {
         let angle = this.angle + dir*TURN_FACTOR;
+        angle = getInTheCircle(angle);
         this.angle = angle;
     }
     drawParams() {
@@ -91,6 +97,45 @@ function separation(fish, other) {
     }
 }
 
+// - - - - - - - WALLS RULES - - - - - - -
+
+function avoidWall(fish, dist, wall) {
+    let dir = fish.angle;
+    if (wall == 0) {
+        if (dir < Math.PI/2 || dir > (3*Math.PI)/2) dir = 1;
+        else dir = -1
+    } else if (wall == 1) {
+        if (dir < Math.PI/2 || dir > (3*Math.PI)/2) dir = -1;
+        else dir = 1;
+    } else if (wall == 2) {
+        if (dir < Math.PI) dir = 1;
+        else dir = -1;
+    } else if (wall == 3) {
+        if (dir < Math.PI) dir = -1;
+        else dir = 1;
+    }
+    fish.turn(1/(20*dist)*dir*WALLS_STRENGTH)
+    
+    //console.log("wall → avoid wall : dist", dist);
+    //console.log("wall → avoid wall : turn", 1/(20*dist)*dir*WALLS_STRENGTH)
+    //console.log("wall → avoid wall : inv dist", 1/(20*dist))
+    //console.log("wall → avoid wall : dist", dist)
+    //:console.log("wall → avoid wall : dir", dir)
+
+    
+}
+
+function wall(fish) {
+    let topDist = fish.position.y;
+    let leftDist = fish.position.x;
+    let bottomDist = WINDOW.height - fish.position.y;
+    let rightDist = WINDOW.width - fish.position.x;
+    if (topDist < WALLS_RADIUS) avoidWall(fish, topDist, 0);
+    if (bottomDist < WALLS_RADIUS) avoidWall(fish, bottomDist, 1);
+    if (rightDist < WALLS_RADIUS) avoidWall(fish, rightDist, 2);
+    if (leftDist < WALLS_RADIUS) avoidWall(fish, leftDist, 3);
+}
+
 // - - - - - - - FISH SETUP - - - - - - -
 
 let fishherd = createHerd(NBFISH);
@@ -122,5 +167,6 @@ function draw() {
                 separation(fish, other);
             }
         }
+        wall(fish);
     }
 }
