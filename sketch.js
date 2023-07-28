@@ -23,7 +23,7 @@ fishFolder.add(params, "separationRadius", 0, 1000, 100).name("Separation radius
 fishFolder.add(params, "separationStrength", 0.0, 5.0, 1.5).name("Separation strength");
 fishFolder.add(params, "alignmentRadius", 0, 1000, 200).name("Alignment radius");
 fishFolder.add(params, "alignmentStrength", 0.0, 5.0, 1).name("Alignment strength");
-fishFolder.add(params, "wallsRadius", 0, 1000, 200).name("Walls radius");
+fishFolder.add(params, "wallsRadius", 0, 400, 200).name("Walls radius");
 fishFolder.add(params, "wallsStrength", 0.0, 750, 150).name("Walls strength");
 fishFolder.add(params, "turnFactor", 0.0, 5.0, 1.0).name("Turn factor");
 fishFolder.add(params, "drawParameters").name("Draw parameters");
@@ -51,6 +51,21 @@ let DRAW_PARAMS = params.drawParameters;
 const urlParams = new URLSearchParams(window.location.search);
 let NBFISH = urlParams.get("nbfish");
 if (NBFISH == null) NBFISH = 150;
+
+function updateParams() {
+    SPEED = params.speed;
+    TAIL_SIZE = params.tailSize;
+    SEPARATION_RADIUS = params.separationRadius;
+    SEPARATION_STRENGTH = params.separationStrength;
+    MOUSE_FISH_SEPARATION_STRENGTH = params.mouseFishSeparationStrength;
+    ALIGNMENT_RADIUS = params.alignmentRadius;
+    ALIGNMENT_STRENGTH = params.alignmentStrength;
+    WALLS_RADIUS = params.wallsRadius;
+    WALLS_STRENGTH = params.wallsStrength;
+    TURN_FACTOR = params.turnFactor;
+    MOUSE_FISH = params.useMouseFish;
+    DRAW_PARAMS = params.drawParameters;
+}
 
 class Fish {
     constructor(x, y, angle, speed, id) {
@@ -83,6 +98,11 @@ class Fish {
         ellipse(this.position.x, this.position.y, SEPARATION_RADIUS, SEPARATION_RADIUS);
         stroke(0, 100, 0)
         ellipse(this.position.x, this.position.y, ALIGNMENT_RADIUS, ALIGNMENT_RADIUS);
+        stroke(0, 0, 100);
+        line(0, WALLS_RADIUS, WINDOW.width, WALLS_RADIUS)
+        line(0, WINDOW.height-WALLS_RADIUS, WINDOW.width, WINDOW.height-WALLS_RADIUS);
+        line(WALLS_RADIUS, 0, WALLS_RADIUS, WINDOW.height);
+        line(WINDOW.width-WALLS_RADIUS, 0, WINDOW.width-WALLS_RADIUS, WINDOW.height)
         noStroke();
     }
 }
@@ -194,7 +214,7 @@ function draw() {
 
     for (let fish of fishherd) {
         fish.draw();
-        //fish.drawParams();
+        if (DRAW_PARAMS) fish.drawParams();
         fish.move();
         for (let other of fishherd) {
             if (fish.id != other.id) {
@@ -204,4 +224,5 @@ function draw() {
         }
         wall(fish);
     }
+    updateParams();
 }
