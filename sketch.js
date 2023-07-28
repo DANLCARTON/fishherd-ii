@@ -1,9 +1,41 @@
+var gui = new dat.GUI();
+var params = new Params();
+
+function Params() {
+    this.speed = 2;
+    this.tailSize = 5;
+    this.separationRadius = 100;
+    this.separationStrength = 1.5;
+    this.mouseFishSeparationStrength = 2;
+    this.alignmentRadius = 200;
+    this.alignmentStrength = 1;
+    this.wallsRadius = 200;
+    this.wallsStrength = 150;
+    this.turnFactor = 1;
+    this.useMouseFish = false;
+    this.drawParameters = false;
+}
+
+gui.add(params, "speed", 0.0, 5.0, 2.0);
+gui.add(params, "tailSize", 0.0, 15.0, 5.0);
+gui.add(params, "separationRadius", 0, 1000, 100);
+gui.add(params, "separationStrength", 0.0, 5.0, 1.5);
+gui.add(params, "alignmentRadius", 0, 1000, 200);
+gui.add(params, "alignmentStrength", 0.0, 5.0, 1);
+gui.add(params, "wallsRadius", 0, 1000, 200);
+gui.add(params, "wallsStrength", 0.0, 750, 150);
+gui.add(params, "turnFactor", 0.0, 5.0, 1.0);
+gui.add(params, "useMouseFish");
+gui.add(params, "mouseFishSeparationStrength", 0.0, 5.0, 2.0)
+gui.add(params, "drawParameters");
+
+
 // - - - - - - - VARIABLES - - - - - - -
 
 const WINDOW = {"width" : $("body").prop("clientWidth"), "height" : $(window).height()}
 const SCREEN_COLOR = {"r": Math.random()*255,"g": Math.random()*255,"b": Math.random()*255}
-let SPEED = 2;
-let TAIL_SIZE = 5;
+let SPEED = params.speed;
+let TAIL_SIZE = params.tailSize
 let SEPARATION_RADIUS = 100;
 let SEPARATION_STRENGTH = 1.5;
 let MOUSE_FISH_SEPARATION_STRENGTH = 2;
