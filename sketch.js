@@ -207,7 +207,7 @@ function draw() {
     mouseFish.position.x = mouseX;
     mouseFish.position.y = mouseY;
     mouseFish.angle = Math.random()*2*Math.PI;
-    //mouseFish.draw();
+    if (MOUSE_FISH) mouseFish.draw();
 
     fill(SCREEN_COLOR.r, SCREEN_COLOR.g, SCREEN_COLOR.b, TAIL_SIZE)
     rect(0, 0, WINDOW.width, WINDOW.height)
@@ -220,6 +220,7 @@ function draw() {
             if (fish.id != other.id) {
                 alignment(fish, other);
                 separation(fish, other);
+                if (MOUSE_FISH) separation(mouseFish, other)
             }
         }
         wall(fish);
