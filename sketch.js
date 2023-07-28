@@ -23,9 +23,9 @@ fishFolder.add(params, "separationRadius", 0, 1000, 100).name("Separation radius
 fishFolder.add(params, "separationStrength", 0.0, 5.0, 1.5).name("Separation strength");
 fishFolder.add(params, "alignmentRadius", 0, 1000, 200).name("Alignment radius");
 fishFolder.add(params, "alignmentStrength", 0.0, 5.0, 1).name("Alignment strength");
-fishFolder.add(params, "wallsRadius", 0, 400, 200).name("Walls radius");
-fishFolder.add(params, "wallsStrength", 0.0, 750, 150).name("Walls strength");
-fishFolder.add(params, "turnFactor", 0.0, 5.0, 1.0).name("Turn factor");
+fishFolder.add(params, "wallsRadius", 1, 400, 200).name("Walls radius");
+fishFolder.add(params, "wallsStrength", 0.1, 750, 150).name("Walls strength");
+fishFolder.add(params, "turnFactor", 0.1, 5.0, 1.0).name("Turn factor");
 fishFolder.add(params, "drawParameters").name("Draw parameters");
 const mouseFishFolder = gui.addFolder("𝐀𝐂𝐓 𝐎𝐍 𝐘𝐎𝐔𝐑 𝐅𝐈𝐒𝐇 !");
 mouseFishFolder.add(params, "useMouseFish").name("Activate the mouse fish");
